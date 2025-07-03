@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'jappbuildserver1' }	
+    agent { label 'slave-1' }	
 
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
