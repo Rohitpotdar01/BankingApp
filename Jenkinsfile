@@ -14,7 +14,7 @@ pipeline {
         stage('SCM Checkout') {
             steps {
                 // Get some code from a GitHub repository
-                git 'https://github.com/LoksaiETA/BankingApp.git'
+                git 'https://github.com/Rohitpotdar01/BankingApp.git'
                 //git 'https://github.com/LoksaiETA/Java-mvn-app2.git'
             }
 		}
@@ -27,9 +27,9 @@ pipeline {
        stage("Docker build"){
             steps {
 				sh 'docker version'
-				sh "docker build -t loksaieta/bankapp-eta-app:${BUILD_NUMBER} ."
+				sh "docker build -t rohitpotdar/bankapp-eta-app:${BUILD_NUMBER} ."
 				sh 'docker image list'
-				sh "docker tag loksaieta/bankapp-eta-app:${BUILD_NUMBER} loksaieta/bankapp-eta-app:latest"
+				sh "docker tag rohitpotdar/bankapp-eta-app:${BUILD_NUMBER} rohitpotdar/bankapp-eta-app:latest"
             }
         }
 		stage('Login2DockerHub') {
@@ -47,7 +47,7 @@ pipeline {
         stage('Deploy to Kubernetes Dev Environment') {
             steps {
 		script {
-		sshPublisher(publishers: [sshPublisherDesc(configName: 'Kubernetes', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl apply -f kubernetesdeploy.yaml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '*.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+		sshPublisher(publishers: [sshPublisherDesc(configName: 'Kubernetes_master', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl apply -f kdeploy.yaml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '*.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
 		       }
             }
     	}
