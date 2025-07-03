@@ -7,7 +7,7 @@ pipeline {
     }
 
 	environment {	
-		DOCKERHUB_CREDENTIALS=credentials('dockerloginid')
+		DOCKERHUB_CREDENTIALS=credentials('dock-password')
 	} 
     
     stages {
@@ -41,7 +41,7 @@ pipeline {
 		stage('Push2DockerHub') {
 
 			steps {
-				sh "docker push loksaieta/bankapp-eta-app:latest"
+				sh "docker push rohitpotdar/bankapp-eta-app:latest"
 			}
 		}
         stage('Deploy to Kubernetes Dev Environment') {
