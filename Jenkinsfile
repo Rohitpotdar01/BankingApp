@@ -15,7 +15,7 @@ pipeline {
             steps {
                 // Get some code from a GitHub repository
                 git 'https://github.com/Rohitpotdar01/BankingApp.git'
-                //git 'https://github.com/LoksaiETA/Java-mvn-app2.git'
+                //git 'https://github.com/Rohitpotdar01/BankingApp.git'
             }
 		}
         stage('Maven Build') {
