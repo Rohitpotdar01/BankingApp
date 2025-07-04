@@ -2,6 +2,7 @@
 - name: Deploy to Kubernetes Production Environment
   hosts: prodnodes
   become: yes
+
   tasks:
     - name: Copy production deployment manifest to remote node
       copy:
@@ -11,11 +12,37 @@
         group: devopsadmin
         mode: '0644'
 
+    - name: Show kubeconfig contents on prod node
+      shell: cat /home/devopsadmin/.kube/config
+      become_user: devopsadmin
+      register: kubeconfig_content
+
+    - name: Print kubeconfig content (debug)
+      debug:
+        var: kubeconfig_content.stdout_lines
+
+    - name: Show kubectl config view on prod node
+      shell: kubectl --kubeconfig /home/devopsadmin/.kube/config config view
+      become_user: devopsadmin
+      register: kubectl_config_view
+
+    - name: Print kubectl config view (debug)
+      debug:
+        var: kubectl_config_view.stdout_lines
+
+    - name: Test connection to Kubernetes cluster by getting nodes
+      shell: kubectl --kubeconfig /home/devopsadmin/.kube/config get nodes
+      become_user: devopsadmin
+      register: kubectl_get_nodes
+
+    - name: Print nodes list (debug)
+      debug:
+        var: kubectl_get_nodes.stdout_lines
+
     - name: Apply Kubernetes manifests to prod namespace
       shell: kubectl apply -f /home/devopsadmin/kdeploy-prod.yaml --kubeconfig /home/devopsadmin/.kube/config
-      environment:
-        KUBECONFIG: /home/devopsadmin/.kube/config
       become_user: devopsadmin
+
 
 
 
