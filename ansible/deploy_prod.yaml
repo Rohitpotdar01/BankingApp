@@ -1,0 +1,4 @@
+- hosts: kube-master
+  tasks:
+    - name: Deploy production environment
+      ansible.builtin.shell: kubectl apply -f /home/devopsadmin/BankingApp/kdeploy-prod.yaml
