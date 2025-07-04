@@ -1,7 +1,17 @@
+---
 - name: Deploy to Kubernetes Production Environment
   hosts: prodnodes
   become: yes
   tasks:
+    - name: Copy production deployment manifest to remote node
+      copy:
+        src: "{{ playbook_dir }}/../../kdeploy-prod.yaml"
+        dest: /home/devopsadmin/kdeploy-prod.yaml
+        owner: devopsadmin
+        group: devopsadmin
+        mode: '0644'
+
     - name: Apply Kubernetes manifests to prod namespace
-      shell: kubectl apply -f /home/devopsadmin/kdeploy-prod.yaml
+      shell: "kubectl apply -f /home/devopsadmin/kdeploy-prod.yaml"
+
 
