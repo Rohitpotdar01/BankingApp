@@ -1,10 +1,9 @@
-- hosts: testnodes
-  tasks:
-    - name: Copy test deployment manifest to remote node
-      copy:
-        src: ../kdeploy-test.yaml     # relative to playbook location
-        dest: /home/devopsadmin/kdeploy-test.yaml
-        mode: '0644'
+- name: Copy test deployment manifest to remote node
+  copy:
+    src: ../../kdeploy-test.yaml
+    dest: /home/devopsadmin/kdeploy-test.yaml
+    mode: '0644'
+
 
     - name: Apply Kubernetes manifests to test namespace
       shell: kubectl apply -f /home/devopsadmin/kdeploy-test.yaml -n test
