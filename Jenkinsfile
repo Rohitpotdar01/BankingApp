@@ -34,26 +34,25 @@ pipeline {
 
         stage('Deploy to Test') {
             steps {
-                sh "ansible-playbook -i ansible/inventory/hosts ansible/playbooks/deploy_test.yaml"
+                sh "ansible-playbook -i /etc/ansible/hosts ${WORKSPACE}/ansible/playbooks/deploy_test.yaml"
             }
         }
 
         stage('Verify Test Deployment') {
             steps {
-                sh "ansible-playbook -i ansible/inventory/hosts ansible/playbooks/verify_test.yaml"
+                sh "ansible-playbook -i /etc/ansible/hosts ${WORKSPACE}/ansible/playbooks/verify_test.yaml"
             }
         }
 
         stage('Deploy to Prod') {
             when {
                 expression {
-                    // Only proceed if previous stages were successful
                     currentBuild.currentResult == 'SUCCESS'
                 }
             }
             steps {
                 input message: 'Approve deployment to PROD?', ok: 'Deploy'
-                sh "ansible-playbook -i ansible/inventory/hosts ansible/playbooks/deploy_prod.yaml"
+                sh "ansible-playbook -i /etc/ansible/hosts ${WORKSPACE}/ansible/playbooks/deploy_prod.yaml"
             }
         }
     }
