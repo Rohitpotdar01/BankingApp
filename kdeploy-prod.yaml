@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bankapp-eta-deploy
+  namespace: prod
+  labels:
+    app: bankapp-eta-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bankapp-eta-app
+  template:
+    metadata:
+      labels:
+        app: bankapp-eta-app
+    spec:
+      containers:
+      - name: bankapp-eta-container
+        image: rohitpotdar/bankapp-eta-app
+        ports:
+        - containerPort: 8082
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bankapp-eta-np-service
+  namespace: prod
+  labels:
+    app: bankapp-eta-app
+spec:
+  selector:
+    app: bankapp-eta-app
+  type: NodePort
+  ports:
+  - nodePort: 31033  # Different nodePort for production
+    port: 8082
+    targetPort: 8082
