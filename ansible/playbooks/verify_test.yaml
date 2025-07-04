@@ -1,0 +1,8 @@
+- name: Verify test deployment rollout status
+  hosts: testnodes
+  become: yes
+  tasks:
+    - name: Check rollout status of deployment in test namespace
+      shell: kubectl rollout status deployment/bankapp-eta-deploy -n test --timeout=120s
+      register: rollout_status
+      failed_when: rollout_status.rc != 0
