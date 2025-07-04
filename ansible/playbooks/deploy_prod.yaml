@@ -1,0 +1,7 @@
+- name: Deploy to Kubernetes Production Environment
+  hosts: prodnodes
+  become: yes
+  tasks:
+    - name: Apply Kubernetes manifests to prod namespace
+      shell: kubectl apply -f /home/devopsadmin/kdeploy-prod.yaml
+
