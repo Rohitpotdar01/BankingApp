@@ -51,7 +51,6 @@ pipeline {
                 }
             }
             steps {
-                input message: 'Approve deployment to PROD?', ok: 'Deploy'
                 sh "ansible-playbook -i /etc/ansible/hosts ${WORKSPACE}/ansible/playbooks/deploy_prod.yaml"
             }
         }
