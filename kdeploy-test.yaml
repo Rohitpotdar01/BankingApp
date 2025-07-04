@@ -33,6 +33,6 @@ spec:
     app: bankapp-eta-app
   type: NodePort
   ports:
-  - nodePort: 31032
+  - nodePort: 31050
     port: 8082
     targetPort: 8082
