@@ -5,9 +5,11 @@ pipeline {
         maven "maven"
     }
 
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('dock-password')
-    }
+   environment {
+    DOCKERHUB_USR = credentials('dock-password').username
+    DOCKERHUB_PSW = credentials('dock-password').password
+}
+
 
     stages {
         stage('SCM Checkout') {
