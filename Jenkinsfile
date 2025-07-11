@@ -25,7 +25,7 @@ pipeline {
                 sh "docker tag rohitpotdar/bankapp-eta-app:${BUILD_NUMBER} rohitpotdar/bankapp-eta-app:latest"
                 
                 withCredentials([usernamePassword(credentialsId: 'dock-password', usernameVariable: 'DOCKERHUB_USR', passwordVariable: 'DOCKERHUB_PSW')]) {
-                    sh 'echo $DOCKERHUB_PSW | docker login -u $DOCKERHUB_USR --password-stdin'
+                    sh "echo $DOCKERHUB_PSW | docker login -u $DOCKERHUB_USR --password-stdin"
                 }
 
                 sh "docker push rohitpotdar/bankapp-eta-app:latest"
