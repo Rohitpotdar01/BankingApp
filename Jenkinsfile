@@ -8,7 +8,7 @@ pipeline {
    environment {
     DOCKERHUB_USR = credentials('dock-password').username
     DOCKERHUB_PSW = credentials('dock-password').password
-}
+       }
 
 
     stages {
