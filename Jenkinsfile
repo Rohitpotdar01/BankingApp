@@ -5,12 +5,6 @@ pipeline {
         maven "maven"
     }
 
-   environment {
-    DOCKERHUB_USR = credentials('dock-password').username
-    DOCKERHUB_PSW = credentials('dock-password').password
-       }
-
-
     stages {
         stage('SCM Checkout') {
             steps {
@@ -29,7 +23,11 @@ pipeline {
                 sh 'docker version'
                 sh "docker build -t rohitpotdar/bankapp-eta-app:${BUILD_NUMBER} ."
                 sh "docker tag rohitpotdar/bankapp-eta-app:${BUILD_NUMBER} rohitpotdar/bankapp-eta-app:latest"
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                
+                withCredentials([usernamePassword(credentialsId: 'dock-password', usernameVariable: 'DOCKERHUB_USR', passwordVariable: 'DOCKERHUB_PSW')]) {
+                    sh 'echo $DOCKERHUB_PSW | docker login -u $DOCKERHUB_USR --password-stdin'
+                }
+
                 sh "docker push rohitpotdar/bankapp-eta-app:latest"
             }
         }
